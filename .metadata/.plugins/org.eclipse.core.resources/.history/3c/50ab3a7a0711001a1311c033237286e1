@@ -1,0 +1,18 @@
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class MainIRC {
+	static final int PUERTO = 5000;	
+	ServerSocket skServidor;
+	Socket skCliente;
+	
+	public static void main(String[] args) {
+		Servidor servidor = new Servidor();
+		servidor.setVisible(true);
+		
+		while (true) {
+			skServidor = new ServerSocket(PUERTO);
+		}
+	}
+
+}

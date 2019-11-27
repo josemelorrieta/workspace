@@ -1,0 +1,61 @@
+<biblioteca>
+	<libro>
+		<autor>Alcázar Colilla, Javier</autor>
+		<titulo>El principito</titulo>
+		<editorial>Barcelona : Adapta, 2018</editorial>
+        <paginas>119</paginas>
+        <altura>22</altura>
+		<notas>Un aviador se encuentra perdido en el desierto del Sáhara, después de que su avión sufra una avería. Allí, conoce al Principito, que procede de otro planeta. Mientras el aviador se centra en arreglar su avión para poder volver a casa, el Principito le explica su historia y le habla de su planeta, su rosa, su amigo el zorro, y los diferentes adultos que ha encontrado en su viaje hasta la Tierra.</notas>
+		<isbn>978-84-945696-8-5</isbn>
+		<materias>Novelas clásicas--- Adaptaciones--- Libros infantiles y juveniles</materias>
+	</libro>
+	<libro>
+		<autor>Aguirre Bellver, Joaquín</autor>
+		<titulo>Aventuras de Don Quijote de la Mancha</titulo>
+		<editorial>Madrid : Edaf, 1991</editorial>
+        <paginas>209</paginas>
+        <altura>29</altura>
+		<notas></notas>
+		<isbn>84-7166-599-9</isbn>
+		<materias></materias>
+	</libro>
+	<libro>
+		<autor>Benet, Vicente José</autor>
+		<titulo>Lo que el viento se llevó</titulo>
+		<editorial>Barcelona : Paidós, 2003</editorial>
+        <paginas>144</paginas>
+        <altura></altura>
+		<notas></notas>
+		<isbn>84-493-1471-2</isbn>
+		<materias></materias>
+	</libro>
+	<libro>
+		<autor>Castillo, Javier</autor>
+		<titulo>El día que se perdió la cordura</titulo>
+		<editorial>Barcelona : Suma de letras, 2017</editorial>
+        <paginas>449</paginas>
+        <altura>23</altura>
+		<notas>Centro de Boston, 24 de diciembre, un hombre camina desnudo con la cabeza decapitada de una joven. El doctor Jenkins, director del centro psiquiátrico de la ciudad, y Stella Hyden, agente de perfiles del FBI, se adentrarán en una investigación que pondrá en juego sus vidas, su concepción de la cordura y que los llevará hasta unos sucesos fortuitos ocurridos en el misterioso pueblo de Salt Lake diecisiete años atrás</notas>
+		<isbn>978-84-8365-905-2</isbn>
+		<materias>Novela negra</materias>
+	</libro>
+	<libro>
+		<autor>López Sáinz, Celia</autor>
+		<titulo>El perrito que quería volar y otros cuentos</titulo>
+		<editorial>Bilbao : Fher, 1993</editorial>
+        <paginas>103</paginas>
+        <altura>19</altura>
+		<notas></notas>
+		<isbn>84-243-3076-5</isbn>
+		<materias></materias>
+	</libro>
+	<libro>
+		<autor></autor>
+		<titulo></titulo>
+		<editorial></editorial>
+		<descripcion></descripcion>
+		<notas></notas>
+		<isbn></isbn>
+		<materias></materias>
+	</libro>
+</biblioteca>

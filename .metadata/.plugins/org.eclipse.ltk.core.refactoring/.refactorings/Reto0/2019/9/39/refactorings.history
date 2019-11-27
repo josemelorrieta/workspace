@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;f&apos; in &apos;reto0Grupo6.LeerFicheros.leerFicheroXML()&apos; to &apos;fichero&apos;&#x0D;&#x0A;- Original project: &apos;Reto0&apos;&#x0D;&#x0A;- Original element: &apos;reto0Grupo6.LeerFicheros.leerFicheroXML().f&apos;&#x0D;&#x0A;- Renamed element: &apos;f&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;f&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;reto0Grupo6{LeerFicheros.java[LeerFicheros~leerFicheroXML@f!3118!3147!3123!3123!QFile;!0!false" name="fichero" references="true" stamp="1569309698104" version="1.0"/>
+</session>

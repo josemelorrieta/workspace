@@ -1,0 +1,28 @@
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class MainIRC {
+	static final int PUERTO = 5000;	
+	
+	public static void main(String[] args) {
+		Servidor vServidor = new Servidor();
+		vServidor.setVisible(true);
+		
+		ServerSocket skServidor;
+		Socket skCliente;
+
+		try {
+			skServidor = new ServerSocket(PUERTO);
+			
+			while (true) {
+				skCliente = skServidor.accept();
+				HiloCliente hilo = new HiloCliente(skCliente, vServidor);
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}
