@@ -28,7 +28,7 @@ public class MainIRC {
 			while (true) {
 				skCliente = skServidor.accept();
 				HiloCliente hilo = new HiloCliente(skCliente, vServidor);
-				hilo.start();
+				
 				numClientes ++;
 				vServidor.textField.setText("Conexiones actuales = " + numClientes);
 			}
