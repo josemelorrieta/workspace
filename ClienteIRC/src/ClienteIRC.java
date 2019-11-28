@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -13,9 +14,6 @@ public class ClienteIRC {
 	final int PUERTO = 5000;
 	Socket skCliente;
 	InputStream respuesta;
-	DataInputStream flujoRespuesta;
-	OutputStream envio;
-	InputStream entrada;
 	DataInputStream flujoEntrada;
 	DataOutputStream flujoEnvio;
 	String nick = ""; 
@@ -23,6 +21,13 @@ public class ClienteIRC {
 	public ClienteIRC(NickCliente vNick) {
 		this.vNick = vNick;
 		vCliente = new Cliente();
+		try {
+			skCliente = new Socket(HOST, PUERTO);
+			flujoEnvio = new DataOutputStream(skCliente.getOutputStream());
+			flujoEntrada = new DataInputStream(skCliente.getInputStream());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		vNick.btnAceptar.addActionListener(new ActionListener() {
 
@@ -41,13 +46,13 @@ public class ClienteIRC {
 			}
 		});
 		
-		try {
-			
-			while (true) {
-				vCliente.textArea.append(flujoEntrada.readUTF());
+		while(true) {
+			try {
+				String mensaje = flujoEntrada.readUTF();
+				vCliente.textArea.append(mensaje);			
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 	}
@@ -58,7 +63,12 @@ public class ClienteIRC {
 			vCliente.setVisible(true);
 			vNick.lblError.setText("");
 			nick = vNick.txtNick.getText();
-			iniciarChat();
+			try {
+				flujoEnvio.writeUTF(nick);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//iniciarChat();
 		} else {
 			vNick.lblError.setText("Debe introducir un nick para empezar un chat");
 		}
@@ -66,13 +76,13 @@ public class ClienteIRC {
 	
 	private void iniciarChat() {
 		try {
-			skCliente = new Socket(HOST, PUERTO);
-			envio = skCliente.getOutputStream();
-			flujoEnvio = new DataOutputStream(envio);
-			flujoEnvio.writeUTF(nick);
-			entrada = skCliente.getInputStream();
-			flujoEntrada = new DataInputStream(entrada);
-			//escucharServidor();
+//			skCliente = new Socket(HOST, PUERTO);
+//			envio = skCliente.getOutputStream();
+//			flujoEnvio = new DataOutputStream(envio);
+//			flujoEnvio.writeUTF(nick);
+//			entrada = skCliente.getInputStream();
+//			flujoEntrada = new DataInputStream(entrada);
+//			escucharServidor();
 				
 		} catch (Exception e) {
 			e.getStackTrace();
@@ -82,12 +92,12 @@ public class ClienteIRC {
 	private void enviarMensaje() {
 		try {
 			flujoEnvio.writeUTF(vCliente.txtMensaje.getText());
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exc) {
+			exc.printStackTrace();
 		}
 	}
 	
-	private void escucharServidor() {
-		
-	}
+//	private void escucharServidor() {
+//		
+//	}
 }
