@@ -39,18 +39,18 @@ public class HiloCliente implements Runnable {
 			salida = skCliente.getOutputStream();
 			flujoSalida = new DataOutputStream(salida);
 			while (true) {
-					if (primeraVez) {
-						nombreCliente = flujoEntrada.readUTF();
-						primeraVez = false;
-						vServidor.textArea.append(nombreCliente + " se ha conectado al chat.\n");
-						responder(nombreCliente + " se ha conectado al chat.\n");
-						//servidor.broadcast(nombreCliente + " se ha conectado al chat.\n");
-					} else {
-						mensaje = flujoEntrada.readUTF();
-						vServidor.textArea.append(nombreCliente + ": " + mensaje + "\n");
-						responder(nombreCliente + ": " + mensaje + "\n");
-						//servidor.broadcast(nombreCliente + ": " + mensaje + "\n");
-					}
+				if (primeraVez) {
+					nombreCliente = flujoEntrada.readUTF();
+					primeraVez = false;
+					vServidor.textArea.append(nombreCliente + " se ha conectado al chat.\n");
+					//responder(nombreCliente + " se ha conectado al chat.\n");
+					servidor.broadcast(nombreCliente + " se ha conectado al chat.\n");
+				} else {
+					mensaje = flujoEntrada.readUTF();
+					vServidor.textArea.append(nombreCliente + ": " + mensaje + "\n");
+					//responder(nombreCliente + ": " + mensaje + "\n");
+					servidor.broadcast(nombreCliente + ": " + mensaje + "\n");
+				}
 		
 			}
 		} catch (Exception e) {

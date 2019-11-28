@@ -49,6 +49,7 @@ public class ClienteIRC {
 		while(true) {
 			try {
 				String mensaje = flujoEntrada.readUTF();
+				
 				vCliente.textArea.append(mensaje);			
 			} catch (Exception e) {
 				e.printStackTrace();
