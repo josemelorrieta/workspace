@@ -9,15 +9,4 @@ public class MainIRC {
 		
 	}
 
-	private static void salir() {
-//		vServidor.dispose();
-//		try {
-//			if (skCliente != null)
-//				skCliente.close();
-//			if (skServidor != null) 
-//				skServidor.close();
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-	}
 }

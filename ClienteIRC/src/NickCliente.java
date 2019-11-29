@@ -20,9 +20,10 @@ public class NickCliente extends JFrame {
 	public JLabel lblError;
 
 	public NickCliente() {
+		setResizable(false);
 		setTitle("Ventana cliente entrada");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 299, 226);
+		setBounds(100, 100, 299, 203);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -40,8 +41,11 @@ public class NickCliente extends JFrame {
 		txtNick.setColumns(10);
 		
 		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setIcon(null);
 		btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAceptar.setBounds(83, 113, 113, 33);
+		btnAceptar.setFocusPainted(false);
+		btnAceptar.setContentAreaFilled(false);
 		contentPane.add(btnAceptar);
 		
 		lblError = new JLabel("");

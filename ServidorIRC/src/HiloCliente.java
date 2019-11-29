@@ -1,8 +1,6 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -12,11 +10,10 @@ public class HiloCliente implements Runnable {
 	private Socket skCliente;
 	private Servidor vServidor;
 	private ServidorIRC servidor;
-	private ArrayList<HiloCliente> clientes;
-	InputStream entrada;
 	DataInputStream flujoEntrada;
 	DataOutputStream flujoSalida;
-	OutputStream salida;
+	String nombreCliente = "";
+	boolean isAlive = true;
 	
 	public HiloCliente (Socket skCliente, Servidor vServidor, ServidorIRC servidor) {
 		this.skCliente = skCliente;
@@ -29,32 +26,36 @@ public class HiloCliente implements Runnable {
 	
 	public void run() {
 		
-		String nombreCliente = "";
+		
 		String mensaje = "";
-		boolean primeraVez = true;	
+		boolean primeraVez = true;
 
 		try {
-			entrada = skCliente.getInputStream();
-			flujoEntrada = new DataInputStream(entrada);
-			salida = skCliente.getOutputStream();
-			flujoSalida = new DataOutputStream(salida);
-			while (true) {
+			flujoEntrada = new DataInputStream(skCliente.getInputStream());
+			flujoSalida = new DataOutputStream(skCliente.getOutputStream());
+			while (isAlive) {
 				if (primeraVez) {
 					nombreCliente = flujoEntrada.readUTF();
 					primeraVez = false;
+					//responder al cliente
 					vServidor.textArea.append(nombreCliente + " se ha conectado al chat.\n");
-					//responder(nombreCliente + " se ha conectado al chat.\n");
 					servidor.broadcast(nombreCliente + " se ha conectado al chat.\n");
+					//Añadir cliente a lista clientes
+					vServidor.listModel.addElement(nombreCliente);
+					servidor.anadirCliente(nombreCliente);
 				} else {
-					mensaje = flujoEntrada.readUTF();
-					vServidor.textArea.append(nombreCliente + ": " + mensaje + "\n");
-					//responder(nombreCliente + ": " + mensaje + "\n");
-					servidor.broadcast(nombreCliente + ": " + mensaje + "\n");
+					if (!mensaje.equals("exit")) {
+						mensaje = flujoEntrada.readUTF();
+						vServidor.textArea.append(nombreCliente + ": " + mensaje + "\n");
+						servidor.broadcast(nombreCliente + ": " + mensaje + "\n");
+					} else {
+						servidor.cerrarCliente(nombreCliente);
+					}
 				}
 		
 			}
 		} catch (Exception e) {
-			e.getStackTrace();
+			salir();
 		}
 	}
 	
@@ -63,6 +64,20 @@ public class HiloCliente implements Runnable {
 			flujoSalida.writeUTF(mensaje);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void salir() {
+		try {
+			vServidor.textArea.append(nombreCliente + " se ha desconectado del chat.\n");
+			servidor.broadcast(nombreCliente + " se ha desconectado del chat.\n");
+			servidor.cerrarCliente(nombreCliente);
+			flujoEntrada.close();
+			flujoSalida.close();
+			skCliente.close();
+			isAlive = false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	

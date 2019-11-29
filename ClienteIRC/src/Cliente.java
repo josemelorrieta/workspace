@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 public class Cliente extends JFrame {
 
@@ -37,6 +38,7 @@ public class Cliente extends JFrame {
 	 * Create the frame.
 	 */
 	public Cliente() {
+		setResizable(false);
 		setTitle("Ventana Cliente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 317);
@@ -63,7 +65,9 @@ public class Cliente extends JFrame {
 		
 		btnSalir = new JButton("Salir");
 		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSalir.setBounds(149, 231, 97, 32);
+		btnSalir.setBounds(165, 239, 97, 32);
+		btnSalir.setFocusPainted(false);
+		btnSalir.setContentAreaFilled(false);
 		contentPane.add(btnSalir);
 	}
 }

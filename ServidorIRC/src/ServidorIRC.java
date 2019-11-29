@@ -10,22 +10,21 @@ public class ServidorIRC {
 	
 	final int PUERTO = 5000;
 	ServerSocket skServidor = null;
-	Socket skCliente = null;
+	Socket skCliente = null;	
+	int numClientes = 0;
 	ArrayList<HiloCliente> clientes = new ArrayList<HiloCliente>();
+	ArrayList<String> nombresClientes = new ArrayList<String>();
 	
 	public ServidorIRC (Servidor vServidor) {
 		this.vServidor = vServidor;
 	
-	
-		int numClientes = 0;
 		vServidor.textField.setText("Conexiones actuales = " + numClientes);
 		vServidor.btnSalir.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//salir();
+				salir();
 			}
 		});
-		
 		
 		try {
 			skServidor = new ServerSocket(PUERTO);
@@ -33,7 +32,7 @@ public class ServidorIRC {
 			while (true) {
 				skCliente = skServidor.accept();
 				clientes.add(new HiloCliente(skCliente, vServidor, this));
-				
+								
 				numClientes ++;
 				vServidor.textField.setText("Conexiones actuales = " + numClientes);
 			}
@@ -47,4 +46,24 @@ public class ServidorIRC {
 			cliente.responder(mensaje);
 		}
 	}
+	
+	public void anadirCliente(String nombre) {
+		nombresClientes.add(nombre);
+	}
+	
+	public void cerrarCliente(String nombreCliente) {
+		int indice = nombresClientes.indexOf(nombreCliente);
+		nombresClientes.remove(indice);
+		vServidor.listModel.remove(indice);
+		clientes.remove(indice);
+		numClientes --;
+		vServidor.textField.setText("Conexiones actuales = " + numClientes);
+	}
+	
+	private void salir() {
+		for (HiloCliente cliente: clientes) {
+			cliente.salir();
+		}
+	}
+
 }

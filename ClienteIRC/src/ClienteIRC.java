@@ -1,11 +1,13 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class ClienteIRC {
 	private NickCliente vNick;
@@ -13,14 +15,18 @@ public class ClienteIRC {
 	final String HOST = "localhost";
 	final int PUERTO = 5000;
 	Socket skCliente;
-	InputStream respuesta;
 	DataInputStream flujoEntrada;
 	DataOutputStream flujoEnvio;
 	String nick = ""; 
+	String mensaje;
+	String nombreMensaje;
+	String textoMensaje;
+	boolean isAlive = true;
 	
 	public ClienteIRC(NickCliente vNick) {
 		this.vNick = vNick;
 		vCliente = new Cliente();
+		
 		try {
 			skCliente = new Socket(HOST, PUERTO);
 			flujoEnvio = new DataOutputStream(skCliente.getOutputStream());
@@ -29,8 +35,51 @@ public class ClienteIRC {
 			e.printStackTrace();
 		}
 		
+		botonesVentanaNick();
+		botonesVentanaChat();
+		
+		while(isAlive) {
+			try {
+				mensaje = flujoEntrada.readUTF();
+				vCliente.textArea.append(mensaje);
+			} catch (Exception e) {
+				salir();
+			}
+		}
+		
+		vCliente.dispose();
+	}
+	
+	private void aceptarNick() {
+		if (!vNick.txtNick.getText().equals("")) {
+			vNick.setVisible(false);
+			vNick.lblError.setText("");
+			nick = vNick.txtNick.getText();
+			vCliente.setTitle("Ventana cliente " + nick);
+			vCliente.setVisible(true);
+			try {
+				flujoEnvio.writeUTF(nick);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			vNick.lblError.setText("Debe introducir un nick");
+		}
+	}
+	
+	private void enviarMensaje() {
+		if (!vCliente.txtMensaje.getText().equals("")) {
+			try {
+				flujoEnvio.writeUTF(vCliente.txtMensaje.getText());
+				vCliente.txtMensaje.setText("");
+			} catch (Exception exc) {
+				exc.printStackTrace();
+			}
+		}
+	}
+	
+	private void botonesVentanaNick() {
 		vNick.btnAceptar.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				aceptarNick();
@@ -38,67 +87,55 @@ public class ClienteIRC {
 			
 		});
 		
-		vCliente.btnEnviar.addActionListener(new ActionListener() {
-			
+		Action actionNick = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				aceptarNick();				
+			}
+		};
+		
+		vNick.txtNick.addActionListener(actionNick);
+	}
+	
+	private void botonesVentanaChat() {
+		vCliente.btnEnviar.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				enviarMensaje();
 			}
 		});
 		
-		while(true) {
-			try {
-				String mensaje = flujoEntrada.readUTF();
-				
-				vCliente.textArea.append(mensaje);			
-			} catch (Exception e) {
-				e.printStackTrace();
+		Action action = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				enviarMensaje();				
 			}
-		}
+		};
 		
-	}
-	
-	private void aceptarNick() {
-		if (!vNick.txtNick.getText().equals("")) {
-			vNick.setVisible(false);
-			vCliente.setVisible(true);
-			vNick.lblError.setText("");
-			nick = vNick.txtNick.getText();
-			try {
-				flujoEnvio.writeUTF(nick);
-			} catch (IOException e) {
-				e.printStackTrace();
+		vCliente.txtMensaje.addActionListener(action);
+		
+		vCliente.btnSalir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				salir();
 			}
-			//iniciarChat();
-		} else {
-			vNick.lblError.setText("Debe introducir un nick para empezar un chat");
-		}
+		});
 	}
-	
-	private void iniciarChat() {
+
+	private void salir() {
 		try {
-//			skCliente = new Socket(HOST, PUERTO);
-//			envio = skCliente.getOutputStream();
-//			flujoEnvio = new DataOutputStream(envio);
-//			flujoEnvio.writeUTF(nick);
-//			entrada = skCliente.getInputStream();
-//			flujoEntrada = new DataInputStream(entrada);
-//			escucharServidor();
-				
-		} catch (Exception e) {
-			e.getStackTrace();
+			flujoEntrada.close();
+			flujoEnvio.close();
+			skCliente.close();
+			isAlive = false;
+		} catch (Exception ex) {
+			vCliente.dispose();
 		}
 	}
-	
-	private void enviarMensaje() {
-		try {
-			flujoEnvio.writeUTF(vCliente.txtMensaje.getText());
-		} catch (Exception exc) {
-			exc.printStackTrace();
-		}
-	}
-	
-//	private void escucharServidor() {
-//		
-//	}
+
 }
