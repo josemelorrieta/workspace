@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
@@ -21,7 +20,6 @@ public class ClienteIRC {
 	String mensaje;
 	String nombreMensaje;
 	String textoMensaje;
-	boolean isAlive = true;
 	
 	public ClienteIRC(NickCliente vNick) {
 		this.vNick = vNick;
@@ -38,16 +36,17 @@ public class ClienteIRC {
 		botonesVentanaNick();
 		botonesVentanaChat();
 		
-		while(isAlive) {
-			try {
+		
+		try {
+			while(true) {
 				mensaje = flujoEntrada.readUTF();
 				vCliente.textArea.append(mensaje);
-			} catch (Exception e) {
-				salir();
 			}
+		} catch (Exception e) {
+			vCliente.dispose();
 		}
 		
-		vCliente.dispose();
+		System.exit(0);
 	}
 	
 	private void aceptarNick() {
@@ -132,9 +131,8 @@ public class ClienteIRC {
 			flujoEntrada.close();
 			flujoEnvio.close();
 			skCliente.close();
-			isAlive = false;
 		} catch (Exception ex) {
-			vCliente.dispose();
+			ex.printStackTrace();
 		}
 	}
 

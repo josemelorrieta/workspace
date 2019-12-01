@@ -2,18 +2,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class HiloCliente implements Runnable {
 	Thread miHilo;
 	
-	private Socket skCliente;
+	public Socket skCliente;
 	private Servidor vServidor;
 	private ServidorIRC servidor;
 	DataInputStream flujoEntrada;
 	DataOutputStream flujoSalida;
 	String nombreCliente = "";
-	boolean isAlive = true;
 	
 	public HiloCliente (Socket skCliente, Servidor vServidor, ServidorIRC servidor) {
 		this.skCliente = skCliente;
@@ -33,7 +31,7 @@ public class HiloCliente implements Runnable {
 		try {
 			flujoEntrada = new DataInputStream(skCliente.getInputStream());
 			flujoSalida = new DataOutputStream(skCliente.getOutputStream());
-			while (isAlive) {
+			while (true) {
 				if (primeraVez) {
 					nombreCliente = flujoEntrada.readUTF();
 					primeraVez = false;
@@ -44,18 +42,13 @@ public class HiloCliente implements Runnable {
 					vServidor.listModel.addElement(nombreCliente);
 					servidor.anadirCliente(nombreCliente);
 				} else {
-					if (!mensaje.equals("exit")) {
-						mensaje = flujoEntrada.readUTF();
-						vServidor.textArea.append(nombreCliente + ": " + mensaje + "\n");
-						servidor.broadcast(nombreCliente + ": " + mensaje + "\n");
-					} else {
-						servidor.cerrarCliente(nombreCliente);
-					}
+					mensaje = flujoEntrada.readUTF();
+					vServidor.textArea.append(nombreCliente + ": " + mensaje + "\n");
+					servidor.broadcast(nombreCliente + ": " + mensaje + "\n");
 				}
-		
 			}
 		} catch (Exception e) {
-			salir();
+			salir("cliente");
 		}
 	}
 	
@@ -67,15 +60,16 @@ public class HiloCliente implements Runnable {
 		}
 	}
 	
-	public void salir() {
+	public void salir(String origen) {
 		try {
 			vServidor.textArea.append(nombreCliente + " se ha desconectado del chat.\n");
-			servidor.broadcast(nombreCliente + " se ha desconectado del chat.\n");
+			if (origen.equals("cliente"))
+					servidor.broadcast(nombreCliente + " se ha desconectado del chat.\n");			
 			servidor.cerrarCliente(nombreCliente);
+			Thread.sleep(250);
 			flujoEntrada.close();
 			flujoSalida.close();
 			skCliente.close();
-			isAlive = false;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

@@ -38,6 +38,8 @@ public class ServidorIRC {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	
@@ -54,16 +56,24 @@ public class ServidorIRC {
 	public void cerrarCliente(String nombreCliente) {
 		int indice = nombresClientes.indexOf(nombreCliente);
 		nombresClientes.remove(indice);
-		vServidor.listModel.remove(indice);
 		clientes.remove(indice);
+		vServidor.listModel.remove(indice);
 		numClientes --;
 		vServidor.textField.setText("Conexiones actuales = " + numClientes);
 	}
 	
 	private void salir() {
-		for (HiloCliente cliente: clientes) {
-			cliente.salir();
+		ArrayList<HiloCliente> clientesTemp = new ArrayList<HiloCliente>(clientes);
+				
+		for (HiloCliente cliente: clientesTemp) {
+			try {
+				cliente.flujoEntrada.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		clientes.clear();
+		clientesTemp.clear();
 	}
 
 }
