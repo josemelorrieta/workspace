@@ -48,7 +48,8 @@ public class HiloCliente implements Runnable {
 				}
 			}
 		} catch (Exception e) {
-			salir("cliente");
+			if (!skCliente.isClosed())
+				salir("cliente");
 		}
 	}
 	
@@ -63,8 +64,9 @@ public class HiloCliente implements Runnable {
 	public void salir(String origen) {
 		try {
 			vServidor.textArea.append(nombreCliente + " se ha desconectado del chat.\n");
-			if (origen.equals("cliente"))
-					servidor.broadcast(nombreCliente + " se ha desconectado del chat.\n");			
+			if (origen.equals("cliente")) {
+				servidor.broadcast(nombreCliente + " se ha desconectado del chat.\n");
+			}			
 			servidor.cerrarCliente(nombreCliente);
 			Thread.sleep(250);
 			flujoEntrada.close();

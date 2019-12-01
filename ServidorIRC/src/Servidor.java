@@ -15,7 +15,7 @@ public class Servidor extends JFrame {
 	public JPanel contentPane;
 	public JTextField textField;
 	public JTextArea textArea;
-	public JButton btnSalir;
+	public JButton btnSalir, btnDesconectar;
 	public JList<String> list;
 	public DefaultListModel<String> listModel;
 
@@ -73,5 +73,12 @@ public class Servidor extends JFrame {
 		list.setModel(listModel);
 		list.setBounds(436, 42, 130, 285);
 		contentPane.add(list);
+		
+		btnDesconectar = new JButton("Desconectar");
+		btnDesconectar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnDesconectar.setBounds(446, 338, 113, 30);
+		btnDesconectar.setFocusPainted(false);
+		btnDesconectar.setContentAreaFilled(false);
+		contentPane.add(btnDesconectar);
 	}
 }

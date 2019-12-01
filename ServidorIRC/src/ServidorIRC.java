@@ -26,6 +26,16 @@ public class ServidorIRC {
 			}
 		});
 		
+		vServidor.btnDesconectar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int pos = vServidor.list.getSelectedIndex();
+				if (pos >= 0)
+					clientes.get(pos).salir("servidor");
+			}
+		});
+		
 		try {
 			skServidor = new ServerSocket(PUERTO);
 			
@@ -67,13 +77,13 @@ public class ServidorIRC {
 				
 		for (HiloCliente cliente: clientesTemp) {
 			try {
-				cliente.flujoEntrada.close();
+				cliente.salir("servidor");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		clientes.clear();
-		clientesTemp.clear();
+		vServidor.dispose();
+		System.exit(0);
 	}
 
 }
