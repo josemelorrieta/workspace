@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy 5 elements to &apos;kk/src/kk&apos;&#x0D;&#x0A;- Original project: &apos;Reto0Equipo6&apos;&#x0D;&#x0A;- Destination element: &apos;kk/src/kk&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     Libro.java&#x0D;&#x0A;     LeerDatos.java&#x0D;&#x0A;     FuncionesMain.java&#x0D;&#x0A;     Library.java&#x0D;&#x0A;     MainReto0.java" description="Copy files" destination="=kk/src&lt;kk" element1="Reto0/src/main/java/Libro.java" element2="Reto0/src/main/java/LeerDatos.java" element3="Reto0/src/main/java/FuncionesMain.java" element4="Reto0/src/main/java/Library.java" element5="Reto0/src/main/java/MainReto0.java" files="5" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1568803491904" units="0" version="1.0"/>
-</session>

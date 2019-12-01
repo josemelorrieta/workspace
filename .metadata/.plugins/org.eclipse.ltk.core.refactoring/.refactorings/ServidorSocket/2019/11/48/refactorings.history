@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;Servidor.java&apos; to &apos;ServidorPersona/src/(default package)&apos;&#x0D;&#x0A;- Original project: &apos;ServidorSocket&apos;&#x0D;&#x0A;- Destination element: &apos;ServidorPersona/src/(default package)&apos;&#x0D;&#x0A;- Original element: &apos;Servidor.java&apos;" description="Copy compilation unit" destination="=ServidorPersona/src&lt;" element1="/src&lt;{Servidor.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1574846782676" units="1" version="1.0"/>
-</session>

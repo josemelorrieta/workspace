@@ -1,9 +1,0 @@
-
-public class MainIRC {
-
-	public static void main(String[] args) {
-		Servidor servidor = new Servidor();
-
-	}
-
-}
