@@ -51,14 +51,13 @@ public class ClienteIRC {
 	
 	private void aceptarNick() {
 		if (!vNick.txtNick.getText().equals("")) {
-			
+			nick = vNick.txtNick.getText();
 			try {
 				flujoEnvio.writeUTF(nick);
 				Thread.sleep(100);
 				if(!flujoEntrada.readUTF().equals("nick repetido")) {
 					vNick.setVisible(false);
 					vNick.lblError.setText("");
-					nick = vNick.txtNick.getText();
 					vCliente.setTitle("Ventana cliente " + nick);
 					vCliente.setVisible(true);
 				} else {
