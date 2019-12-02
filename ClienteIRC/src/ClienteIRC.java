@@ -51,16 +51,25 @@ public class ClienteIRC {
 	
 	private void aceptarNick() {
 		if (!vNick.txtNick.getText().equals("")) {
-			vNick.setVisible(false);
-			vNick.lblError.setText("");
-			nick = vNick.txtNick.getText();
-			vCliente.setTitle("Ventana cliente " + nick);
-			vCliente.setVisible(true);
+			
 			try {
 				flujoEnvio.writeUTF(nick);
+				Thread.sleep(100);
+				if(!flujoEntrada.readUTF().equals("nick repetido")) {
+					vNick.setVisible(false);
+					vNick.lblError.setText("");
+					nick = vNick.txtNick.getText();
+					vCliente.setTitle("Ventana cliente " + nick);
+					vCliente.setVisible(true);
+				} else {
+					vCliente.txtMensaje.setText("Nick en uso, introduzca otro");
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
+			
 		} else {
 			vNick.lblError.setText("Debe introducir un nick");
 		}

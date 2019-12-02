@@ -86,4 +86,11 @@ public class ServidorIRC {
 		System.exit(0);
 	}
 
+	public boolean comprobarNombreCliente(String nombre) {
+		if (nombresClientes.contains(nombre)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
