@@ -86,11 +86,14 @@ public class ServidorIRC {
 		System.exit(0);
 	}
 
-	public boolean comprobarNombreCliente(String nombre) {
-		if (nombresClientes.contains(nombre)) {
-			return true;
-		} else {
-			return false;
+	public String comprobarNombreCliente(String nombre) {
+		int cont = 1;
+		
+		while (nombresClientes.contains(nombre)) {
+			nombre = nombre.split("_")[0] + "_" + cont;
+			cont ++;
 		}
+		
+		return nombre;
 	}
 }

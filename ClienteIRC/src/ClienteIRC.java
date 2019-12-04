@@ -36,11 +36,18 @@ public class ClienteIRC {
 		botonesVentanaNick();
 		botonesVentanaChat();
 		
+		boolean primeraVez = true;
 		
 		try {
 			while(true) {
-				mensaje = flujoEntrada.readUTF();
-				vCliente.textArea.append(mensaje);
+				if (primeraVez) {
+					nick = flujoEntrada.readUTF();
+					vCliente.setTitle("Ventana cliente " + nick);
+					primeraVez = false;
+				} else {
+					mensaje = flujoEntrada.readUTF();
+					vCliente.textArea.append(mensaje);
+				}
 			}
 		} catch (Exception e) {
 			vCliente.dispose();
@@ -54,15 +61,13 @@ public class ClienteIRC {
 			nick = vNick.txtNick.getText();
 			try {
 				flujoEnvio.writeUTF(nick);
-				Thread.sleep(100);
-				if(!flujoEntrada.readUTF().equals("nick repetido")) {
+//				if(flujoEntrada.readUTF() == "nick ok") {
 					vNick.setVisible(false);
 					vNick.lblError.setText("");
-					vCliente.setTitle("Ventana cliente " + nick);
 					vCliente.setVisible(true);
-				} else {
-					vCliente.txtMensaje.setText("Nick en uso, introduzca otro");
-				}
+//				} else {
+//					vCliente.txtMensaje.setText("Nick en uso, introduzca otro");
+//				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (Exception ex) {
@@ -94,6 +99,7 @@ public class ClienteIRC {
 			
 		});
 		
+		// Recoger la tecla enter para mandar nick
 		Action actionNick = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
@@ -114,6 +120,7 @@ public class ClienteIRC {
 			}
 		});
 		
+		// Recoger la tecla enter para mandar mensaje
 		Action action = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 

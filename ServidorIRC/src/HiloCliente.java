@@ -34,18 +34,16 @@ public class HiloCliente implements Runnable {
 			while (true) {
 				if (primeraVez) {
 					nombreCliente = flujoEntrada.readUTF();
-					if(servidor.comprobarNombreCliente(nombreCliente)) {
-						flujoSalida.writeUTF("nick repetido");
-					} else {
-						primeraVez = false;
-						//responder al cliente
-						vServidor.textArea.append(nombreCliente + " se ha conectado al chat.\n");
-						servidor.broadcast(nombreCliente + " se ha conectado al chat.\n");
-						//Añadir cliente a lista clientes
-						vServidor.listModel.addElement(nombreCliente);
-						servidor.anadirCliente(nombreCliente);
-						flujoSalida.writeUTF("nick ok");
-					}
+					nombreCliente = servidor.comprobarNombreCliente(nombreCliente);
+					primeraVez = false;
+					//responder al cliente
+					vServidor.textArea.append(nombreCliente + " se ha conectado al chat.\n");
+					servidor.broadcast(nombreCliente);
+					Thread.sleep(100);
+					servidor.broadcast(nombreCliente + " se ha conectado al chat.\n");
+					//Añadir cliente a lista clientes
+					vServidor.listModel.addElement(nombreCliente);
+					servidor.anadirCliente(nombreCliente);
 				} else {
 					mensaje = flujoEntrada.readUTF();
 					vServidor.textArea.append(nombreCliente + ": " + mensaje + "\n");
