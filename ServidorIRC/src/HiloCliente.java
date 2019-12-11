@@ -38,7 +38,7 @@ public class HiloCliente implements Runnable {
 					primeraVez = false;
 					//responder al cliente
 					vServidor.textArea.append(nombreCliente + " se ha conectado al chat.\n");
-					servidor.broadcast(nombreCliente);
+					flujoSalida.writeUTF(nombreCliente);
 					Thread.sleep(100);
 					servidor.broadcast(nombreCliente + " se ha conectado al chat.\n");
 					//Añadir cliente a lista clientes
